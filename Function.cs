@@ -29,7 +29,7 @@ namespace ec2startstopserver
             SetEmailMessage(ref emailsubject, ref emailmessage, input.Time);
 
             await SesServices.SendNotificationAsync(emailsubject,emailmessage);
-            //await Ec2Services.ServerCallAsync();
+            await Ec2Services.ServerCallAsync();
             
             LambdaLogger.Log("Completed task.");
         }

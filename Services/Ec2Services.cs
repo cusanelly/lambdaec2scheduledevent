@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.EC2;
 using Amazon.EC2.Model;
-using Amazon.Lambda.Core;
 
 namespace ec2startstopserver.Services
 {

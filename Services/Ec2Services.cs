@@ -56,10 +56,12 @@ namespace ec2startstopserver.Services
                 InstanceIds = _InstanceId
             };
             StartInstancesResponse res = await _Client.StartInstancesAsync(req);
+            // We take 5 seconds to wait for public dns be provisioned on the running servers.
             Thread.Sleep(5000);
+            // Iterate through the response to obtain values that would be used to sent an email.
             if (res.StartingInstances.Count > 0)
             {
-                var serverstatus = await DescribeInstanceAsync();
+                var serverstatus = await DescribeInstanceAsync();                
                 foreach (var item in serverstatus.Reservations)
                 {
                     response += $"InstanceId:{item.Instances[0].InstanceId} - IPAddress:{item.Instances[0].PublicDnsName} ";

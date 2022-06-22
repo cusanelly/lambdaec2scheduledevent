@@ -39,20 +39,19 @@ namespace ec2startstopserver
         {
             switch (date.Hour)
             {
-                case 17: // 17:00 UTC
-                    subject = "AWS - Inicio del primer ciclo de cambio de servidor.";
-                    break;
-                case 20: // 20:00 UTC
-                    subject = "AWS - Fin del primer ciclo de cambio de servidor.";
-                    break;
+                case 14: // 17:00 UTC
+                    subject = "AWS - Inicio de encendido de servidores.";
+                    message = "Ha comenzado el ciclo de encendido de servidores.";
+                    break;                
                 case 23: // 23:00 UTC
                     subject = "AWS - Inicio del segundo ciclo de cambio de servidor.";
                     break;
                 default: // 02:00 UTC
-                    subject = "AWS - Fin del segundo ciclo de cambio de servidor.";
+                    subject = "AWS - Inicio de apagado de servidores.";
+                    message = "Ha comenzado el ciclo de apagado de servidores.";
                     break;
             }
-            message = "Ha comenzado el ciclo de conversion del servidor. Por favor, prueba ingresar nuevamente al website en 5 minutos.";
+            
         }
     }
 }

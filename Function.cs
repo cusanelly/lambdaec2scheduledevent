@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-
 using Amazon.Lambda.Core;
 using ec2startstopserver.Services;
 using Amazon.Lambda.CloudWatchEvents.ScheduledEvents;
@@ -27,11 +26,14 @@ namespace ec2startstopserver
             string emailsubject = String.Empty;
             LambdaLogger.Log(input.Time.Hour.ToString());
             SetEmailMessage(ref emailsubject, ref emailmessage, input.Time);
-
-            await SesServices.SendNotificationAsync(emailsubject,emailmessage);
-            await Ec2Services.ServerCallAsync();
             
-            LambdaLogger.Log("Completed task.");
+            string response = await Ec2Services.ServerCallAsync();
+            if (response != null) {
+                emailmessage += response;
+            }
+            await SesServices.SendNotificationAsync(emailsubject, emailmessage);
+
+            LambdaLogger.Log($"{emailmessage} Completed task.");
         }
         public void SetEmailMessage(ref string subject, ref string message, DateTime date) 
         {

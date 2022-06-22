@@ -1,4 +1,4 @@
-# AWS Lambda Empty Function Project
+# AWS Lambda EC2 Start - Stop server through EventBridge schedule event.
 
 This starter project consists of:
 * Function.cs - class file containing a class with a single function handler method
@@ -34,12 +34,6 @@ Install Amazon.Lambda.Tools Global Tools if not already installed.
 If already installed check if new version is available.
 ```
     dotnet tool update -g Amazon.Lambda.Tools
-```
-
-Execute unit tests
-```
-    cd "ec2startstopserver/test/ec2startstopserver.Tests"
-    dotnet test
 ```
 
 Deploy function to AWS Lambda

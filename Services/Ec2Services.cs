@@ -28,10 +28,10 @@ namespace ec2startstopserver.Services
             }
             _InstanceId = ec2instances.Trim().Split(',').ToList();
             var serverstatus = await DescribeInstanceAsync();
-            //foreach (var item in serverstatus.Reservations)
-            //{
-            //    LambdaLogger.Log(item.Instances[0].InstanceId);
-            //}
+            foreach (var item in serverstatus.Reservations)
+            {
+                LambdaLogger.Log(item.Instances[0].Tags.FirstOrDefault(t => t.Key == "Name").Value);
+            }
             if (serverstatus.Reservations[0].Instances[0].State.Name.Equals("Running"))
             {
                 await StopInstanceAsync();
@@ -64,8 +64,8 @@ namespace ec2startstopserver.Services
                 var serverstatus = await DescribeInstanceAsync();                
                 foreach (var item in serverstatus.Reservations)
                 {
-                    response += $"InstanceId:{item.Instances[0].InstanceId} - IPAddress:{item.Instances[0].PublicDnsName} ";
-                    LambdaLogger.Log($"InstanceId:{item.Instances[0].InstanceId} - IPAddress:{item.Instances[0].PublicDnsName}");
+                    response += $"Instance Name:{item.Instances[0].Tags.FirstOrDefault(t=>t.Key=="Name").Value} - Public DNS:{item.Instances[0].PublicDnsName} ";
+                    LambdaLogger.Log($"Instance Name:{item.Instances[0].Tags.FirstOrDefault(t => t.Key == "Name").Value} - Public DNS:{item.Instances[0].PublicDnsName}");
                 }
             }
             return response;

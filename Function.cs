@@ -29,7 +29,7 @@ namespace ec2startstopserver
             
             string response = await Ec2Services.ServerCallAsync();
             if (response != null) {
-                emailmessage += response;
+                emailmessage += response;                
             }
             await SesServices.SendNotificationAsync(emailsubject, emailmessage);
 

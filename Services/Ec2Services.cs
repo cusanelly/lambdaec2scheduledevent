@@ -30,15 +30,17 @@ namespace ec2startstopserver.Services
             var serverstatus = await DescribeInstanceAsync();
             foreach (var item in serverstatus.Reservations)
             {
-                LambdaLogger.Log(item.Instances[0].Tags.FirstOrDefault(t => t.Key == "Name").Value);
+                LambdaLogger.Log(item.Instances[0].Tags.FirstOrDefault(t => t.Key == "Name").Value);                
             }
             if (serverstatus.Reservations[0].Instances[0].State.Name.Equals("Running"))
             {
                 await StopInstanceAsync();
             }
-            else if (serverstatus.Reservations[0].Instances[0].State.Name.Equals("Stopped")) {
+            else if (serverstatus.Reservations[0].Instances[0].State.Name.Equals("Stopped"))
+            {
                 response = await StartInstanceAsync();
             }
+
             return response;
         }
         static async Task StopInstanceAsync()
@@ -59,12 +61,12 @@ namespace ec2startstopserver.Services
             // We take 5 seconds to wait for public dns be provisioned on the running servers.
             Thread.Sleep(5000);
             // Iterate through the response to obtain values that would be used to sent an email.
-            if (res.StartingInstances.Count > 0)
+            if (res.StartingInstances.Count > -1)
             {
                 var serverstatus = await DescribeInstanceAsync();                
                 foreach (var item in serverstatus.Reservations)
                 {
-                    response += $"Instance Name:{item.Instances[0].Tags.FirstOrDefault(t=>t.Key=="Name").Value} - Public DNS:{item.Instances[0].PublicDnsName} ";
+                    response += $"<br />Instance Name:{item.Instances[0].Tags.FirstOrDefault(t=>t.Key=="Name").Value} - Public DNS:{item.Instances[0].PublicDnsName}";
                     LambdaLogger.Log($"Instance Name:{item.Instances[0].Tags.FirstOrDefault(t => t.Key == "Name").Value} - Public DNS:{item.Instances[0].PublicDnsName}");
                 }
             }

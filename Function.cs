@@ -39,7 +39,7 @@ namespace ec2startstopserver
         {
             switch (date.Hour)
             {
-                case 14: // 17:00 UTC
+                case 13: // 17:00 UTC
                     subject = "AWS - Inicio de encendido de servidores.";
                     message = "Ha comenzado el ciclo de encendido de servidores.";
                     break;                
